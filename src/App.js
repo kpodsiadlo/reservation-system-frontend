@@ -35,15 +35,12 @@ const App = () => {
   };
 
   const addReservation = (reservation) => {
-    console.log(reservation);
-    const startTimeUTC = new Date(reservation.startTime).toUTCString();
-    console.log(startTimeUTC);
-    const endTimeUTC = new Date(reservation.endTime).toUTCString();
-    console.log(endTimeUTC);
+    const startTimeUTC = new Date(reservation.startTime).toISOString();
+    const endTimeUTC = new Date(reservation.endTime).toISOString();
     const timeProcessedReservation = {
       ...reservation,
-      startTimeUTC,
-      endTimeUTC,
+      startTime: startTimeUTC,
+      endTime: endTimeUTC,
     };
     console.log(timeProcessedReservation);
     setReservations([...reservations, timeProcessedReservation]);
