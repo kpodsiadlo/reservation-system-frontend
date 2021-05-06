@@ -1,12 +1,10 @@
-import User from './Components/User'
-import Reservations from "./Components/Reservations"
-import './App.css';
-import { useState } from 'react'
-import AddReservation from "./Components/AddReservation"
-
+import User from "./Components/User";
+import Reservations from "./Components/Reservations";
+import "./App.css";
+import { useState } from "react";
+import AddReservation from "./Components/AddReservation";
 
 const App = () => {
-
   const [reservations, setReservations] = useState([
     {
       id: 1,
@@ -26,27 +24,44 @@ const App = () => {
       startTime: "1975-08-19T23:15:30.000Z",
       endTime: "1975-08-19T23:15:30.000Z",
     },
-  ])
+  ]);
 
-  const [showAddReservation, setShowAddReservation] = useState(
-    false
-  )
+  const [showAddReservation, setShowAddReservation] = useState(false);
 
   const Remove = (id) => {
-    setReservations(reservations.filter(reservation => reservation.id !== id))
-  }
+    setReservations(
+      reservations.filter((reservation) => reservation.id !== id)
+    );
+  };
+
+  const addReservation = (reservation) => {
+    console.log(reservation);
+    const startTimeUTC = new Date(reservation.startTime).toUTCString();
+    console.log(startTimeUTC);
+    const endTimeUTC = new Date(reservation.endTime).toUTCString();
+    console.log(endTimeUTC);
+    const timeProcessedReservation = {
+      ...reservation,
+      startTimeUTC,
+      endTimeUTC,
+    };
+    console.log(timeProcessedReservation);
+    setReservations([...reservations, timeProcessedReservation]);
+  };
 
   const toggleAddReservation = () => {
-    setShowAddReservation(!showAddReservation)
-  }
+    setShowAddReservation(!showAddReservation);
+  };
 
   return (
     <div className="App">
       <User onToggleAddReservation={toggleAddReservation} />
-      {showAddReservation && <AddReservation/>}
+      {showAddReservation && (
+        <AddReservation onAddReservation={addReservation} />
+      )}
       <Reservations reservations={reservations} onRemove={Remove} />
     </div>
   );
-}
+};
 
 export default App;
