@@ -3,6 +3,7 @@ import Reservations from "./Components/Reservations";
 import "./App.css";
 import { useState } from "react";
 import AddReservation from "./Components/AddReservation";
+import EditReservation from "./Components/EditReservation";
 
 const App = () => {
   const [reservations, setReservations] = useState([
@@ -28,12 +29,6 @@ const App = () => {
 
   const [showAddReservation, setShowAddReservation] = useState(false);
 
-  const Remove = (id) => {
-    setReservations(
-      reservations.filter((reservation) => reservation.id !== id)
-    );
-  };
-
   const addReservation = (reservation) => {
     const startTimeUTC = new Date(reservation.startTime).toISOString();
     const endTimeUTC = new Date(reservation.endTime).toISOString();
@@ -46,6 +41,27 @@ const App = () => {
     setReservations([...reservations, timeProcessedReservation]);
   };
 
+  const removeReservation = (id) => {
+    setReservations(
+      reservations.filter((reservation) => reservation.id !== id)
+    );
+  };
+
+  const editReservation = (updatedReservation) => {
+    console.log("upd", updatedReservation);
+    const startTimeISO = new Date(updatedReservation.startTime).toISOString();
+    const endTimeISO = new Date(updatedReservation.endTime).toISOString();
+    const updatedReservations = reservations.forEach((reservation) => {
+      if (reservation.id === updatedReservation.id) {
+        reservation.roomNumber = updatedReservation.roomNumber;
+        reservation.startTime = startTimeISO;
+        reservation.endTime = endTimeISO;
+      }
+    });
+    setReservations(updatedReservations);
+    console.log(reservations);
+  };
+
   const toggleAddReservation = () => {
     setShowAddReservation(!showAddReservation);
   };
@@ -56,7 +72,15 @@ const App = () => {
       {showAddReservation && (
         <AddReservation onAddReservation={addReservation} />
       )}
-      <Reservations reservations={reservations} onRemove={Remove} />
+      <EditReservation
+        reservation={reservations[1]}
+        onEditReservation={editReservation}
+      />
+      <Reservations
+        reservations={reservations}
+        onRemove={removeReservation}
+        onEdit={editReservation}
+      />
     </div>
   );
 };

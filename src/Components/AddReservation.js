@@ -1,3 +1,4 @@
+import ReservationEditor from "./ReservationEditor";
 import { useState } from "react";
 
 const AddReservation = ({ onAddReservation }) => {
@@ -8,7 +9,7 @@ const AddReservation = ({ onAddReservation }) => {
   console.log(currentLocalTime);
   const [roomNumber, setRoomNumber] = useState();
   const [startTime, setStartTime] = useState(currentLocalTime);
-  const [endtime, setEndTime] = useState(currentLocalTime);
+  const [endTime, setEndTime] = useState(currentLocalTime);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -18,39 +19,21 @@ const AddReservation = ({ onAddReservation }) => {
       id: id,
       roomNumber: roomNumber,
       startTime: startTime,
-      endTime: endtime,
+      endTime: endTime,
     });
   };
 
-  return (
-    <form onSubmit={onSubmit}>
-      <input
-        type="text"
-        placeholder="roomNumber"
-        value={roomNumber}
-        onChange={(e) => {
-          setRoomNumber(e.target.value);
-        }}
-      />
-      <p>
-        Reservation Start:
-        <input
-          type="datetime-local"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
-        ></input>
-      </p>
-      <p>
-        Reservation End::
-        <input
-          type="datetime-local"
-          value={endtime}
-          onChange={(e) => setEndTime(e.target.value)}
-        ></input>
-      </p>
-      <input type="submit" value="Apply"></input>
-    </form>
-  );
+  const props = {
+    roomNumber: roomNumber,
+    startTime: startTime,
+    endTime: endTime,
+    setRoomNumber: setRoomNumber,
+    setStartTime: setStartTime,
+    setEndTime: setEndTime,
+    onSubmit: onSubmit,
+  };
+
+  return <ReservationEditor {...props} />;
 };
 
 export default AddReservation;

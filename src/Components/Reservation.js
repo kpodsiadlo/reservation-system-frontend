@@ -1,9 +1,9 @@
-const Reservation = ({ reservation, onRemove }) => {
+const Reservation = ({ reservation, onRemove, onEdit }) => {
   return (
     <div>
       <h4>
         Room: {reservation.roomNumber}
-        <button>Edit</button>
+        <button onClick={() => onEdit(reservation.id)}>Edit</button>
         <button onClick={() => onRemove(reservation.id)}>Remove</button>
       </h4>
       <p>
